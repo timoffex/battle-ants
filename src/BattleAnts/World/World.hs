@@ -34,11 +34,11 @@ import BattleAnts.World.WorldObject
 -- | All data associated with a cell in the world.
 data WorldCellData = WorldCellData
   { _worldCellDataCell   :: CellData
-  , _worldCellDataEntity :: WithId EntityData
+  , _worldCellDataEntity :: Maybe (WithId EntityData)
   }
 makeFields ''WorldCellData
 
-mkWorldCellData :: CellData -> WithId EntityData -> WorldCellData
+mkWorldCellData :: CellData -> Maybe (WithId EntityData) -> WorldCellData
 mkWorldCellData = WorldCellData
 
 data World = World
@@ -85,7 +85,7 @@ withoutIds = lens id setValue
 -- positions.
 traverseIdsEntities :: Traversal World World Entity (WithId EntityData)
 traverseIdsEntities = worldGrid
-                    . (itraversed <. entity) . withIndex
+                    . (itraversed <. entity . _Just) . withIndex
                     . worldObject
                     . withoutPositions
 
