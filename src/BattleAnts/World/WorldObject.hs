@@ -1,3 +1,6 @@
+{-# LANGUAGE DeriveFoldable #-}
+{-# LANGUAGE DeriveFunctor #-}
+{-# LANGUAGE DeriveTraversable #-}
 {-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE FunctionalDependencies #-}
 {-# LANGUAGE MultiParamTypeClasses #-}
@@ -13,6 +16,7 @@ module BattleAnts.World.WorldObject
 import Control.Lens
 import Data.Grid
 
+import BattleAnts.Fields.HasDatum
 import BattleAnts.World.Positioned
 import BattleAnts.World.WorldId
 
@@ -22,7 +26,8 @@ import BattleAnts.World.WorldId
 data WorldObject d = WorldObject
   { idOf :: WorldId
   , pos :: GridPosition
-  , _worldObjectDatum :: d }
+  , _worldObjectDatum :: d
+  } deriving (Functor, Foldable, Traversable)
 makeFields ''WorldObject
 
 instance Positioned (WorldObject d) where

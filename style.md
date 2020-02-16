@@ -55,7 +55,22 @@ the generated type classes.
 Reasoning: Exporting the `Has...` type classes lets you reap the benefits of
 overloaded names.
 
-## Naming
+## Aesthetics
+
+### Records
+
+Put the constructor name on the same line as the type name, then define
+the fields starting on the following line, indented two spaces:
+
+```
+data AntData = AntData
+  { _antDataFoodSupply :: FoodData
+  , _antDataKnowledge  :: AntKnowledge
+  }
+```
+
+- Align the `::` for each field in the record, if possible.
+- End with a brace on its own line.
 
 ### Lenses
 

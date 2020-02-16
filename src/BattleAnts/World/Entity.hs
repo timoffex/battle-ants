@@ -5,7 +5,10 @@
 
 -- | Defines the concept of an 'Entity' in the world.
 module BattleAnts.World.Entity
-    (
+    ( Entity
+    , EntityData (EntityAnt)
+    , _EntityAnt
+    , IsEntityData (fromEntityData)
     ) where
 
 import Control.Lens

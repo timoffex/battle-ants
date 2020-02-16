@@ -238,7 +238,7 @@ BattleAnts/
 
     Positioned.hs   -- Class for stuff that is positioned. E.g. actions (which
                     -- do not have IDs).
-
+  Fields/ -- Defines 'HasFieldName' classes to break ambiguities.
 Control/  -- Utilities for control structures.
 Data/     -- Defines Grid, Grid3x3, GridDirection, SparseGrid.
 ```

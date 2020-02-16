@@ -14,6 +14,8 @@ module BattleAnts.World.Positioned
 import Control.Lens
 import Data.Grid
 
+import BattleAnts.Fields.HasDatum
+
 -- | Class for data with a readable position.
 class Positioned a where
   positionOf :: a -> GridPosition
