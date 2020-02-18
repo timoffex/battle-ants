@@ -185,7 +185,7 @@ BattleAnts/
 
   Player.hs   -- Exports all definitions useful to the player.
   Player/
-    AntComputation.hs -- Monad: RWS AntInput AntOutput StdGen
+    AntComputation.hs -- Monad: ReaderT AntInput (State StdGen)
                       -- Defines API for defining ants.
                       --   Makes it easier to modify ant state.
                       --   Enables randomness.
