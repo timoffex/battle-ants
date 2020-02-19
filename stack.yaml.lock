@@ -5,6 +5,13 @@
 
 packages:
 - completed:
+    hackage: endo-0.3.0.1@sha256:7299a456be44c72431f9193f56bb9fb21e3f76746bd7affa433f2f0bede89eb7,5289
+    pantry-tree:
+      size: 1344
+      sha256: bb5caf99cf9887b9a9aeb8ebb13e11254f2d32025e1e6d5260a74037a56b514e
+  original:
+    hackage: endo-0.3.0.1@sha256:7299a456be44c72431f9193f56bb9fb21e3f76746bd7affa433f2f0bede89eb7,5289
+- completed:
     hackage: numhask-prelude-0.3.3@sha256:3046b6940da79846166e89ed2ffdb6acf37c6d318ee2f2953ebc24a066f599ab,1349
     pantry-tree:
       size: 398

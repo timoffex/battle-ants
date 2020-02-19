@@ -15,8 +15,8 @@ import Data.Grid3x3
 import BattleAnts.Player.WorldView
 
 data AntInput = AntInput
-  { _antInputSurroundings :: Grid3x3 WorldCellView }
+  { _antInputSurroundings :: Grid3x3 (Maybe WorldCellView) }
 makeFields ''AntInput
 
-mkAntInput :: Grid3x3 WorldCellView -> AntInput
+mkAntInput :: Grid3x3 (Maybe WorldCellView) -> AntInput
 mkAntInput = AntInput

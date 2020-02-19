@@ -20,6 +20,7 @@ import BattleAnts.Fields.HasDatum
 
 -- | An ID in the world.
 newtype WorldId = WorldId { fromId :: Int }
+                  deriving (Eq, Ord)
 
 -- | Attaches a 'WorldId' to a piece of data.
 data WithId d = WithId

@@ -9,7 +9,6 @@
 -- | Defines the 'WorldObject' type, which has an ID and a position.
 module BattleAnts.World.WorldObject
     ( WorldObject (WorldObject)
-    , idOf
     , HasDatum (datum)
     ) where
 
@@ -24,9 +23,9 @@ import BattleAnts.World.WorldId
 --
 -- Every object has an ID, a position and its internal data.
 data WorldObject d = WorldObject
-  { idOf :: WorldId
-  , pos :: GridPosition
-  , _worldObjectDatum :: d
+  { _worldObjectWorldId :: WorldId
+  , pos                 :: GridPosition
+  , _worldObjectDatum   :: d
   } deriving (Functor, Foldable, Traversable)
 makeFields ''WorldObject
 

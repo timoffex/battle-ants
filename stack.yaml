@@ -40,6 +40,7 @@ packages:
 #   commit: e7b331f14bcffb8367cd58fbfc8b40ec7642100a
 #
 extra-deps:
+- endo-0.3.0.1@sha256:7299a456be44c72431f9193f56bb9fb21e3f76746bd7affa433f2f0bede89eb7,5289
 - numhask-prelude-0.3.3@sha256:3046b6940da79846166e89ed2ffdb6acf37c6d318ee2f2953ebc24a066f599ab,1349
 
 # Override default flag values for local packages and extra-deps
