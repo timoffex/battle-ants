@@ -25,6 +25,7 @@ dependencies:
 - containers
 - endo
 - free
+- gloss
 - keys
 - lens
 - mtl
