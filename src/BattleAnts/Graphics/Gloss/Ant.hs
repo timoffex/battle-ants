@@ -13,10 +13,14 @@ import BattleAnts.World
 import BattleAnts.Graphics.Gloss.Env
 
 
-renderAnt :: AntData -> PlayerId -> Reader Env Picture
-renderAnt ad pid = do
-  maybeColor <- asks $ view (playerColorMap . at pid)
+renderAnt :: WithId AntData -> Reader Env Picture
+renderAnt a = do
+  maybePid <- asks $ view (gameState . antPlayer . at (a^.worldId))
 
-  let col = fromMaybe magenta maybeColor
+  case maybePid of
+    Nothing  -> return blank
+    Just pid -> do
+      maybeColor <- asks $ view (playerColorMap . at pid)
 
-  return $ color col $ rectangleSolid 0.8 0.8
+      let col = fromMaybe magenta maybeColor
+      return $ color col $ rectangleSolid 0.8 0.8

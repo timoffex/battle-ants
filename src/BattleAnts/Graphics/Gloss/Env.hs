@@ -7,6 +7,7 @@
 module BattleAnts.Graphics.Gloss.Env
     ( Env
     , HasPlayerColorMap (playerColorMap)
+    , HasGameState (gameState)
     ) where
 
 import Control.Lens
@@ -17,8 +18,9 @@ import BattleAnts.GameState
 
 data Env = Env
   { _envPlayerColorMap :: M.Map PlayerId Color
+  , _envGameState      :: GameState
   }
 makeFields ''Env
 
-mkEnv :: M.Map PlayerId Color -> Env
+mkEnv :: M.Map PlayerId Color -> GameState -> Env
 mkEnv = Env
