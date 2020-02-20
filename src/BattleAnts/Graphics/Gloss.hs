@@ -4,6 +4,7 @@ module BattleAnts.Graphics.Gloss
     , module BattleAnts.Graphics.Gloss.Entity
     , module BattleAnts.Graphics.Gloss.Env
     , module BattleAnts.Graphics.Gloss.WorldCell
+    , module BattleAnts.Graphics.Gloss.WorldGrid
     ) where
 
 import BattleAnts.Graphics.Gloss.Ant

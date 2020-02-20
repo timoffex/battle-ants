@@ -6,6 +6,7 @@
 -- | Defines the environment shared by all graphics functions for Gloss.
 module BattleAnts.Graphics.Gloss.Env
     ( Env
+    , mkEnv
     , HasPlayerColorMap (playerColorMap)
     , HasGameState (gameState)
     ) where
