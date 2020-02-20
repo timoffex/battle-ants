@@ -10,8 +10,6 @@ module BattleAnts.GameState
     , HasWorld (world)
     , HasRandomSeed (randomSeed)
 
-    , runAnts
-    , runAntIn
     , playerById
     , playerDataFor
 
@@ -77,25 +75,3 @@ playerDataFor :: WorldId -> GameState -> Maybe GamePlayerData
 playerDataFor wid gs = do
   pid <- gs ^. antPlayer . at wid
   playerById pid gs
-
--- | Runs the ant if it has an associated player.
-runAntIn :: GameState -> Ant -> MaybeT (State StdGen) AntOutput
-runAntIn game ant = do
-  playerData  <- liftMaybe $ playerDataFor (ant^.worldId) game
-  let antInput = mkAntInput $ antView (ant^.datum) $ center3x3 $
-                   game ^. world . worldGrid . centeredAt (positionOf ant)
-  (_, ao)     <- lift $ runAntComputation antInput (playerData ^. antFunction)
-  return ao
-
--- | Gets the outputs of all ants.
-runAnts :: GameState -> State StdGen [WithPosition AntOutput]
-runAnts game = do
-  let ants = game ^... world . traverseAnts
-
-  antOutputs <- forM ants $ \ant -> do
-    maybeAntOutput <- runMaybeT (runAntIn game ant)
-    case maybeAntOutput of
-      Just ao -> return [WithPosition (positionOf ant) ao]
-      Nothing -> return []
-
-  return $ join antOutputs
