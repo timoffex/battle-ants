@@ -14,6 +14,7 @@ module BattleAnts.World.World
     , mkWorld
     , HasWorldGrid (worldGrid)
 
+    , allWorldIdsOf
     , traverseIdsEntities
     , traverseEntities
     , traverseIdsAnts
@@ -23,6 +24,7 @@ module BattleAnts.World.World
 import Control.Lens
 import Data.Functor.Compose
 import Data.Grid
+import qualified Data.Set as S
 import Data.SparseGrid
 
 import BattleAnts.World.Ant
@@ -38,8 +40,8 @@ data WorldCellData = WorldCellData
   }
 makeFields ''WorldCellData
 
-mkWorldCellData :: CellData -> Maybe (WithId EntityData) -> WorldCellData
-mkWorldCellData = WorldCellData
+mkWorldCellData :: CellData -> WorldCellData
+mkWorldCellData cd = WorldCellData cd Nothing
 
 data World = World
   { _worldWorldGrid :: SparseGrid WorldCellData
@@ -48,6 +50,13 @@ makeFields ''World
 
 mkWorld :: SparseGrid WorldCellData -> World
 mkWorld = World
+
+-- | Gets all 'WorldId's present in the given 'World'.
+allWorldIdsOf :: World -> S.Set WorldId
+allWorldIdsOf world = S.fromList $
+  world ^.. worldGrid
+          . traverse
+          . entity . _Just . worldId
 
 -- | Isomorphism between 'WorldObject d' and @('GridPosition', 'WithId' 'd')@.
 worldObject :: Iso' (GridPosition, WithId d) (WorldObject d)

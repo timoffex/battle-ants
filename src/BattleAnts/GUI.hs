@@ -19,7 +19,7 @@ showSimulateGame playerColors game =
            black      -- Background color
            1          -- Simulation steps per second
            game
-           (renderGame playerColors)
+           (scale 400 400 . renderGame playerColors)
            (\_ _ g -> stepGame g)
 
 -- | Renders the game, given the player colors and the game.

@@ -8,6 +8,7 @@ module BattleAnts.GameState
     ( GameState
     , mkGameState
     , HasWorld (world)
+    , HasPlayerMap (playerMap)
     , HasAntPlayer (antPlayer)
     , HasRandomSeed (randomSeed)
 

@@ -4,6 +4,7 @@ module BattleAnts.World
     ( module BattleAnts.World.World
 
     , module BattleAnts.World.Transitions.MoveEntities
+    , module BattleAnts.World.Transitions.NewEntities
 
     , module BattleAnts.World.Cell
     , module BattleAnts.World.Entity
@@ -24,3 +25,4 @@ import BattleAnts.World.WorldId hiding (WorldId (WorldId), fromId)
 import BattleAnts.World.WorldId (WorldId)
 import BattleAnts.World.WorldObject
 import BattleAnts.World.Transitions.MoveEntities
+import BattleAnts.World.Transitions.NewEntities
