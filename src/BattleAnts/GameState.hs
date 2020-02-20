@@ -8,6 +8,7 @@ module BattleAnts.GameState
     ( GameState
     , mkGameState
     , HasWorld (world)
+    , HasRandomSeed (randomSeed)
 
     , runAnts
     , runAntIn
@@ -21,14 +22,13 @@ module BattleAnts.GameState
     ) where
 
 import Control.Lens
+import Control.LensUtils
 import Control.Monad.State
 import Control.Monad.Trans.Maybe
 import Control.Utils
-import Data.Functor.Const
 import Data.Grid
 import Data.Grid3x3
 import qualified Data.Map as M
-import Data.Monoid.Endo
 import System.Random
 
 import BattleAnts.Player
@@ -50,6 +50,7 @@ data GameState = GameState
   { _gameStateWorld       :: World
   , _gameStatePlayerMap   :: M.Map PlayerId GamePlayerData
   , _gameStateAntPlayer   :: M.Map WorldId PlayerId
+  , _gameStateRandomSeed  :: StdGen
   }
 makeFields ''GameState
 
@@ -57,8 +58,10 @@ makeFields ''GameState
 mkGameState :: World
             -> [(GamePlayerData, [WorldId])]
             -- ^ Players and the IDs of their associated entities.
+            -> StdGen
+            -- ^ Initial random seed.
             -> GameState
-mkGameState world playerDefs = GameState world playerMap antPlayerMap
+mkGameState world playerDefs seed = GameState world playerMap antPlayerMap seed
   where
     idsPlayerDefs = zip (map PlayerId [1..]) playerDefs
     playerMap    = M.fromList $ [ (i, p)  | (i, (p, _ )) <- idsPlayerDefs ]
@@ -96,7 +99,3 @@ runAnts game = do
       Nothing -> return []
 
   return $ join antOutputs
-
--- | Just like (^..) except works with more general traversals.
-infixl 8 ^...
-s ^... f = runEndo [] $ getConst $ flip f s $ \a -> Const (Endo ([a]++))
