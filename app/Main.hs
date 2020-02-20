@@ -3,11 +3,13 @@ module Main where
 import Control.Lens
 import Control.Monad.State
 import Data.Grid
+import Data.GridDirection
 import qualified Data.Map as M
 import Data.SparseGrid
 import Graphics.Gloss
 import System.Random
 
+import BattleAnts.Actions
 import BattleAnts.GameState
 import BattleAnts.GUI
 import BattleAnts.Player
@@ -66,4 +68,5 @@ player1 = mkGamePlayerData dumbAntFunction
 player2 = mkGamePlayerData dumbAntFunction
 
 dumbAntFunction :: AntComputation ()
-dumbAntFunction = return ()
+dumbAntFunction =
+  put $ mkAntOutput & action .~ (Just $ ActionMove $ MoveData North)
