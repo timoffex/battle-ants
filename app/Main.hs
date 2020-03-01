@@ -5,6 +5,7 @@ import Control.Monad.State
 import Data.Grid
 import Data.GridDirection
 import qualified Data.Map as M
+import Data.Maybe
 import Data.SparseGrid
 import Graphics.Gloss
 import System.Random
@@ -16,30 +17,31 @@ import BattleAnts.Player
 import BattleAnts.World
 
 main :: IO ()
-main = showSimulateGame playerColors game
-  where
-    playerColors :: M.Map PlayerId Color
-    playerColors = M.fromList $ zip allPlayerIds [blue, green]
+main = do
+  game <- initialGameState
 
-    game = initialGameState
-    allPlayerIds = game ^.. playerMap
-                          . itraversed
-                          . withIndex
-                          . to fst
+  let allPlayerIds = game ^.. playerMap
+                            . itraversed
+                            . withIndex
+                            . to fst
+      playerColors = M.fromList $ zip allPlayerIds [blue, green]
 
+  showSimulateGame playerColors game
 
-initialGameState :: GameState
-initialGameState = flip evalState (emptyRectWorld (0, 0) (10, 10)) $ do
-  p1WorldIds <- newEntities [ (fromXY (0, 0), defaultAnt)
-                            , (fromXY (3, 3), defaultAnt) ]
-  p2WorldIds <- newEntities [ (fromXY (0, 0), defaultAnt)
-                            , (fromXY (3, 3), defaultAnt) ]
+initialGameState :: IO GameState
+initialGameState = flip evalStateT (emptyRectWorld (0, 0) (10, 10)) $ do
+  p1WorldIds <- fmap fromJust <$> mapM (uncurry newEntity)
+                    [ (fromXY (0, 0), defaultAnt)
+                    , (fromXY (3, 3), defaultAnt) ]
+  p2WorldIds <- fmap fromJust <$> mapM (uncurry newEntity)
+                    [ (fromXY (0, 0), defaultAnt)
+                    , (fromXY (3, 3), defaultAnt) ]
   world      <- get
 
-  let playerEntities = [ (player1, p1WorldIds)
-                       , (player2, p2WorldIds) ]
-
-  return $ mkGameState world playerEntities (mkStdGen 123)
+  lift $ mkGameState world
+                     [ (player1, p1WorldIds)
+                     , (player2, p2WorldIds) ]
+                     (mkStdGen 123)
 
 -- | Creates an empty world.
 emptyRectWorld :: (Int, Int) -> (Int, Int) -> World

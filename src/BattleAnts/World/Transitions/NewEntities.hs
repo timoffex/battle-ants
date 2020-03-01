@@ -1,6 +1,6 @@
--- | Defines transition to place new entities into the world.
+-- | Defines transition to place a new entity into the world.
 module BattleAnts.World.Transitions.NewEntities
-    ( newEntities
+    ( newEntity
     ) where
 
 import Control.Lens
@@ -12,22 +12,17 @@ import BattleAnts.World.Entity
 import BattleAnts.World.World
 import BattleAnts.World.WorldId
 
--- | Places new entities into the world, returning their assigned IDs.
+-- | Places a entity into the world, returning its assigned ID.
 --
--- The new entities replace any entities that were in their positions. If
--- there are multiple entities, the later entities override the newer ones.
--- Entities with invalid positions (such as those not in the grid) are not
--- placed (though new IDs are generated for them).
-newEntities :: [(GridPosition, EntityData)] -> State World [WorldId]
-newEntities entities = do
-  allWorldIds <- gets allWorldIdsOf
-
-  let availableIds = filter (flip S.notMember allWorldIds) $ WorldId <$> [1..]
-
-  -- TODO: Add 'nextId' getter to World.
-  usedIds <- forM (zip availableIds entities) $ \(wid, (p, e)) -> do
-    modify $ set (worldGrid . gridPosition p . entity)
-                 (Just $ WithId wid e)
-    return wid
-
-  return usedIds
+-- The new entity replaces any entity at its position. This only fails if the
+-- position is not valid in the world.
+newEntity :: GridPosition -> EntityData -> StateT World IO (Maybe WorldId)
+newEntity p ed = do
+  world <- get
+  case world ^? worldGrid . gridPosition p of
+    Nothing -> return Nothing
+    Just _  -> do
+      entityId <- lift newWorldId
+      modify $ set (worldGrid . gridPosition p . entity)
+                   (Just $ WithId entityId ed)
+      return $ Just entityId
